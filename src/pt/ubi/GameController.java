@@ -159,7 +159,7 @@ public class GameController {
             controller.setBoard1(P1_Coords);
             controller.setBoard2(P2_Coords);
             controller.setTurn(!turnController);
-            controller.setMovs(2);
+            controller.setMovs(10);
             controller.Attack_setList1(Attack_coordsList1);
             controller.Attack_setList2(Attack_coordsList2);
             controller.setList1(coordsList1);
@@ -212,7 +212,7 @@ public class GameController {
                         removerPoints(confS, 2,Attack_coordsList2, P1_Coords.getDestroyerCoords());
                         paintDestroyerShips(confS,dir,P1_Coords.getDestroyerCoords());
                     }else{
-                        b.setStyle("-fx-background-color: red;");
+                        b.getStyleClass().add("buttonAttacked");
                         Attack_coordsList2.add(new Point( (int)row, (int)col ));
                     }
                 }else{
@@ -222,7 +222,7 @@ public class GameController {
                         removerPoints(confS, 2,Attack_coordsList1, P2_Coords.getDestroyerCoords());
                         paintDestroyerShips(confS,dir,P2_Coords.getDestroyerCoords());
                     }else{
-                        b.setStyle("-fx-background-color: red;");
+                        b.getStyleClass().add("buttonAttacked");
                         Attack_coordsList1.add(new Point( (int)row, (int)col ));
                     }
                 }
@@ -236,7 +236,7 @@ public class GameController {
                         removerPoints(confB - 5,3,Attack_coordsList2,P1_Coords.getBattleshipCoords());
                         paintBattleShips(confB-5,dir,P1_Coords.getBattleshipCoords());
                     }else{
-                        b.setStyle("-fx-background-color: red;");
+                        b.getStyleClass().add("buttonAttacked");
                         Attack_coordsList2.add(new Point( (int)row, (int)col ));
                     }
                 }
@@ -247,7 +247,7 @@ public class GameController {
                         removerPoints(confB - 5,3,Attack_coordsList1,P2_Coords.getBattleshipCoords());
                         paintBattleShips(confB-5,dir,P2_Coords.getBattleshipCoords());
                     }else{
-                        b.setStyle("-fx-background-color: red;");
+                        b.getStyleClass().add("buttonAttacked");
                         Attack_coordsList1.add(new Point( (int)row, (int)col ));
                     }
                 }
@@ -258,7 +258,8 @@ public class GameController {
                     coordsList1.add(new Point( (int)row, (int)col ));
                 }else{
                     coordsList2.add(new Point( (int)row, (int)col ));
-                }   b.setStyle("-fx-background-color: grey;");
+                }   
+                b.getStyleClass().add("buttonMiss");
                 lbl_movs.setText("Movements: " + mov_Controller);
             }
         }
@@ -445,13 +446,13 @@ public class GameController {
         for(Point point : Attack_dataCoords ){
             index = point.x * grid.getColumnCount() + point.y;
             b = (Button) grid.getChildren().get(index);
-            b.setStyle("-fx-background-color: red;");
+            b.getStyleClass().add("buttonAttacked");
             b.setOnAction(null);
         }
         for(Point pointC : dataCoords ){
             index = pointC.x * grid.getColumnCount() + pointC.y;
             b = (Button) grid.getChildren().get(index);
-            b.setStyle("-fx-background-color: grey;");
+            b.getStyleClass().add("buttonMiss");
             b.setOnAction(null);
         }
         

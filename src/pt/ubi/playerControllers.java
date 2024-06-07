@@ -85,6 +85,7 @@ public class playerControllers {
             switch(boat){
                 case 0:
                     P_Coords.setBattleShipCoords(shipCoords[i].getLocation().x, shipCoords[i].getLocation().y, countBattleShip, i);
+                    shipCoords[i] = new Point(-1,-1);
                     break;
                 case 1:
                     P_Coords.setDestroyerCoords(shipCoords[i].getLocation().x, shipCoords[i].getLocation().y, countDestroyer, i);
@@ -110,23 +111,33 @@ public class playerControllers {
                 b3.setStyle("");
                 if(dir){
                     b1.getStyleClass().add("buttonBat1");
+                    b1.setStyle("-fx-opacity: 1;");
                     b2.getStyleClass().add("buttonBat2");
+                    b2.setStyle("-fx-opacity: 1;");
                     b3.getStyleClass().add("buttonBat3");
+                    b3.setStyle("-fx-opacity: 1;");
                     break;
                 }
                 b1.getStyleClass().add("buttonBatL3");
+                b1.setStyle("-fx-opacity: 1;");
                 b2.getStyleClass().add("buttonBatL2");
+                b2.setStyle("-fx-opacity: 1;");
                 b3.getStyleClass().add("buttonBatL1");
+                b3.setStyle("-fx-opacity: 1;");
                 break;
             }
             case 1 -> {   
                 if(dir){
                     b1.getStyleClass().add("buttonDes1");
+                    b1.setStyle("-fx-opacity: 1;");
                     b2.getStyleClass().add("buttonDes2");
+                    b2.setStyle("-fx-opacity: 1;");
                     break;
                 }
                 b1.getStyleClass().add("buttonDesL2");
+                b1.setStyle("-fx-opacity: 1;");
                 b2.getStyleClass().add("buttonDesL1");
+                b2.setStyle("-fx-opacity: 1;");
                 break;
             }
         
@@ -199,13 +210,26 @@ public class playerControllers {
             BattleShip = true;
             Destroyer = false;
             
+            if(arrayCount != 0){
+                paintNull();
+                arrayCount=0;
+            }
+            
         }else if (s_name.equals("Destroyer")){
             BattleShip = false;
             Destroyer = true;
+            if(arrayCount != 0){
+                paintNull();
+                arrayCount=0;
+            }
         }else{
             BattleShip = false;
             Destroyer = false;
             Submarine = true;
+            if(arrayCount != 0){
+                paintNull();
+                arrayCount=0;
+            }
         }
         
     }
@@ -223,6 +247,7 @@ public class playerControllers {
             if(shipB){
                 arrayCount++;
                 button.setStyle("-fx-background-color: black;");
+                button.setStyle("-fx-opacity: 0.7;");
                 //System.out.println("Bool: " + shipB + " Count: " + arrayCount);
                 
                 if(arrayCount == 3){
@@ -232,11 +257,11 @@ public class playerControllers {
                     ordenarPuntos(shipCoords);
                     arrayCount = 0;
                     countBattleShip--;
-                    invalidadeButtons(0);
                     paintShips(0,direcao);
+                    invalidadeButtons(0);
                     
                     P_Coords.setBattleShipCoords( shipCoords[2].x, shipCoords[2].y,countBattleShip,2);
-                            
+                    shipCoords[2] = new Point(-1,-1);        
                     L_Battle.setText(String.valueOf(countBattleShip));
                 }
             }
@@ -246,19 +271,21 @@ public class playerControllers {
             if(shipB){
                 arrayCount++;
                 button.setStyle("-fx-background-color: green;");
+                button.setStyle("-fx-opacity: 0.7;");
                 if(arrayCount == 2){
                     shipCoords[2].setLocation(11,11);
                     ordenarPuntos(shipCoords);
                     arrayCount = 0;
                     countDestroyer--;
-                    invalidadeButtons(1);
                     paintShips(1,direcao);
+                    invalidadeButtons(1);
                     L_Destroyer.setText(String.valueOf(countDestroyer));
                 }
             }
         }else if(Submarine && countSubmarine>0 ){
             countSubmarine--;
             button.setOnAction(null);
+            button.setStyle("-fx-opacity: 0.7;");
             button.getStyleClass().add("buttonSub");
             P_Coords.setSubmarinesCoords((int) row, (int) col, countSubmarine);
             L_Submarine.setText(String.valueOf(countSubmarine));
@@ -312,7 +339,7 @@ public class playerControllers {
             controller.setBoard1(P1_Coords);
             controller.setBoard2(P_Coords);
             controller.setTurn(false);
-            controller.setMovs(2);
+            controller.setMovs(10);
             controller.setVisible(false);
             
             Stage thisStage = (Stage) L_Battle.getScene().getWindow();
@@ -337,6 +364,26 @@ public class playerControllers {
                 return resultado;
             }
         });
+    }
+    
+    private void paintNull(){
+        if(arrayCount == 1){
+            int index1 = shipCoords[0].getLocation().x * grid.getColumnCount() + shipCoords[0].getLocation().y ;
+            Button b1 = (Button) grid.getChildren().get(index1);
+            b1.setStyle("-fx-background-color: black;");
+            b1.setStyle("-fx-opacity: 0.25;");
+            return;
+        }
+        
+        int index1 = shipCoords[0].getLocation().x * grid.getColumnCount() + shipCoords[0].getLocation().y ;
+        int index2 = shipCoords[1].getLocation().x * grid.getColumnCount() + shipCoords[1].getLocation().y ;
+        Button b1 = (Button) grid.getChildren().get(index1);
+        Button b2 = (Button) grid.getChildren().get(index2);
+        
+        b1.setStyle("-fx-background-color: black;");
+        b1.setStyle("-fx-opacity: 0.25;");
+        b2.setStyle("-fx-background-color: black;");
+        b2.setStyle("-fx-opacity: 0.25;");
     }
     
 }
